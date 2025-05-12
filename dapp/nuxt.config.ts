@@ -7,8 +7,14 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   future: {
-    compatibilityVersion: 4
+    compatibilityVersion: 4,
   },
 
-  compatibilityDate: '2024-11-27'
+  compatibilityDate: '2024-11-27',
+
+  eslint: {
+    config: {
+      standalone: false,
+    },
+  },
 })
