@@ -17,15 +17,12 @@
       />
     </UContainer>
 
-    <UContainer class="pb-60 pt-56 max-w-4xl mx-auto">
-      <h1 class="text-6xl font-bold mb-8 text-white">
+    <UContainer class="pb-60 pt-56 max-w-4xl mx-auto text-center">
+      <h1 class="text-6xl font-bold mb-8 text-white font-serif">
         Your Solana Bridge to Web3 Communities and Innovators
       </h1>
-      <p class="text-2xl text-gray-100 max-w-2xl mx-auto mb-4">
+      <p class="text-2xl text-gray-100 mx-auto mb-4">
         A comprehensive platform that brings together Web3 initiatives, networks, and digital creators, centralizing all your essential resources in one place
-      </p>
-      <p class="text-lg text-gray-300 max-w-2xl mx-auto">
-        Powered by Metaplex Core NFTs for secure, decentralized profile storage on Solana
       </p>
     </UContainer>
   </div>
@@ -33,7 +30,7 @@
   <UContainer class="py-24">
     <div class="grid grid-cols-3 gap-8">
       <div class="bg-primary-900 p-8 rounded-xl">
-        <div class="text-2xl font-bold text-white mb-4">
+        <div class="text-2xl font-bold text-white mb-4 font-serif">
           Trusted & Verified
         </div>
         <p class="text-gray-300">
@@ -41,7 +38,7 @@
         </p>
       </div>
       <div class="bg-primary-900 p-8 rounded-xl">
-        <div class="text-2xl font-bold text-white mb-4">
+        <div class="text-2xl font-bold text-white mb-4 font-serif">
           Native Web3 Features
         </div>
         <p class="text-gray-300">
@@ -49,7 +46,7 @@
         </p>
       </div>
       <div class="bg-primary-900 p-8 rounded-xl">
-        <div class="text-2xl font-bold text-white mb-4">
+        <div class="text-2xl font-bold text-white mb-4 font-serif">
           Always Growing
         </div>
         <p class="text-gray-300">
@@ -66,8 +63,8 @@
         <div class="bg-primary-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8">
           <UIcon name="i-lucide-database" class="text-3xl text-primary-600" />
         </div>
-        <h2 class="text-4xl font-bold mb-6 text-white">
-          Next-Gen Profile Storage
+        <h2 class="text-4xl font-bold mb-6 text-white font-serif">
+          Next-Gen NFT Profile Storage
         </h2>
         <p class="text-xl text-gray-300 mb-8">
           Your profile data is securely stored as Metaplex Core NFTs on the Solana blockchain, ensuring true ownership, permanence, and interoperability across the Web3 ecosystem.
@@ -106,7 +103,7 @@
   <div class="bg-gray-50">
     <UContainer class="py-24">
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold mb-4">
+        <h2 class="text-4xl font-bold mb-4 font-serif">
           How It Works
         </h2>
         <p class="text-xl text-gray-600">
@@ -175,11 +172,11 @@
             The trusted gateway to Web3 organizations and creators on Solana.
           </p>
         </div>
-        <div class="flex gap-8">
+        <!-- <div class="flex gap-8">
           <a href="#" class="hover:text-white">Documentation</a>
           <a href="#" class="hover:text-white">Discord</a>
           <a href="#" class="hover:text-white">Twitter</a>
-        </div>
+        </div> -->
       </div>
       <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
         <p>&copy; 2024 SOLT. All rights reserved.</p>
