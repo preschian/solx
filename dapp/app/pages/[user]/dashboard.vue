@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="min-h-screen bg-primary-50/50">
+  <div class="min-h-screen bg-primary-50">
     <!-- Top Navigation -->
     <div class="bg-white border-b border-primary-100">
       <UContainer class="py-4">
@@ -12,7 +12,7 @@
             <NuxtLink to="/" class="text-2xl font-bold text-primary">
               SOLX
             </NuxtLink>
-            <div class="text-sm text-primary-700/80">
+            <div class="text-sm text-primary-700">
               Dashboard
             </div>
           </div>
@@ -40,7 +40,7 @@
             <h1 class="text-xl font-bold mb-3 text-primary-900">
               Your Profile
             </h1>
-            <p class="text-primary-700/80 mb-4">
+            <p class="text-primary-700 mb-4">
               Manage your profile information and appearance
             </p>
             <div class="flex gap-4">
@@ -67,10 +67,10 @@
               </div>
               <div class="flex-1">
                 <div class="flex justify-between items-center mb-1">
-                  <span class="text-sm text-primary-700/80">Total Views</span>
+                  <span class="text-sm text-primary-700">Total Views</span>
                   <span class="font-semibold text-primary-900">0</span>
                 </div>
-                <div class="text-xs text-primary-600/80 flex items-center gap-1">
+                <div class="text-xs text-primary-600 flex items-center gap-1">
                   <UIcon name="i-lucide-trending-up" class="text-green-500" />
                   <span>No data yet</span>
                 </div>
@@ -84,10 +84,10 @@
               </div>
               <div class="flex-1">
                 <div class="flex justify-between items-center mb-1">
-                  <span class="text-sm text-primary-700/80">Total Clicks</span>
+                  <span class="text-sm text-primary-700">Total Clicks</span>
                   <span class="font-semibold text-primary-900">0</span>
                 </div>
-                <div class="text-xs text-primary-600/80 flex items-center gap-1">
+                <div class="text-xs text-primary-600 flex items-center gap-1">
                   <UIcon name="i-lucide-trending-up" class="text-green-500" />
                   <span>No data yet</span>
                 </div>
@@ -101,10 +101,10 @@
               </div>
               <div class="flex-1">
                 <div class="flex justify-between items-center mb-1">
-                  <span class="text-sm text-primary-700/80">Active Links</span>
+                  <span class="text-sm text-primary-700">Active Links</span>
                   <span class="font-semibold text-primary-900">0</span>
                 </div>
-                <div class="text-xs text-primary-600/80">
+                <div class="text-xs text-primary-600">
                   Add links to get started
                 </div>
               </div>
@@ -169,7 +169,7 @@
             <h3 class="text-lg font-semibold mb-3 text-primary-900">
               No Links Yet
             </h3>
-            <p class="text-primary-700/80 mb-6">
+            <p class="text-primary-700 mb-6">
               Add your first link to start building your profile
             </p>
             <UButton color="primary" icon="i-lucide-plus">
@@ -179,7 +179,7 @@
 
           <!-- Link Item Template (Hidden until links are added) -->
           <div class="hidden">
-            <div class="p-6 flex items-center gap-4 hover:bg-primary-50/50">
+            <div class="p-6 flex items-center gap-4 hover:bg-primary-50">
               <div class="w-10 h-10 rounded-lg flex items-center justify-center">
                 <UIcon name="i-lucide-globe" class="text-lg text-primary-600" />
               </div>
@@ -187,7 +187,7 @@
                 <div class="font-medium text-primary-900">
                   Website
                 </div>
-                <div class="text-sm text-primary-700/80">
+                <div class="text-sm text-primary-700">
                   https://example.com
                 </div>
               </div>
