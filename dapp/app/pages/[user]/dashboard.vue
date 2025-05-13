@@ -1,5 +1,12 @@
-<script setup>
-// Add your script logic here
+<script lang="ts" setup>
+const profile = reactive({
+  slug: '',
+  name: '',
+  bio: '',
+  avatar: '',
+})
+
+const openEditProfile = ref(false)
 </script>
 
 <template>
@@ -27,9 +34,25 @@
             Manage your profile information and appearance
           </p>
           <div class="flex gap-4">
-            <UButton color="primary" variant="soft" icon="i-lucide-edit">
-              Edit Profile
-            </UButton>
+            <UModal v-model:open="openEditProfile" title="Edit Profile">
+              <UButton color="primary" variant="soft" icon="i-lucide-edit">
+                Edit Profile
+              </UButton>
+
+              <template #body>
+                <div class="flex flex-col gap-2">
+                  <UFormField label="Slug">
+                    <UInput v-model="profile.slug" class="w-full" />
+                  </UFormField>
+                  <UFormField label="Name">
+                    <UInput v-model="profile.name" class="w-full" />
+                  </UFormField>
+                  <UFormField label="Bio">
+                    <UTextarea v-model="profile.bio" class="w-full" />
+                  </UFormField>
+                </div>
+              </template>
+            </UModal>
             <UButton color="primary" variant="soft" icon="i-lucide-image">
               Change Avatar
             </UButton>
@@ -144,7 +167,7 @@
                 Tell others about yourself
               </div>
             </div>
-            <UButton color="primary" variant="soft" size="xs" icon="i-lucide-edit">
+            <UButton color="primary" variant="soft" size="xs" icon="i-lucide-edit" @click="openEditProfile = true">
               Add
             </UButton>
           </div>
