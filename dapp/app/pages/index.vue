@@ -1,13 +1,4 @@
 <template>
-  <div class="py-4 shadow">
-    <UContainer class="flex justify-between items-center ">
-      <NuxtLink to="/" class="text-2xl font-bold">
-        SOLX
-      </NuxtLink>
-      <UButton>Connect Wallet</UButton>
-    </UContainer>
-  </div>
-
   <div class="bg-radial from-primary-900 via-primary-800 to-primary-700">
     <UContainer class="py-4">
       <UAlert
@@ -159,28 +150,4 @@
       </div>
     </UContainer>
   </div>
-
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-300">
-    <UContainer class="py-8 sm:py-12">
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
-        <div class="text-center sm:text-left">
-          <h3 class="text-white font-bold text-lg mb-2">
-            SOLX
-          </h3>
-          <p class="text-sm max-w-xs">
-            The trusted gateway to Web3 organizations and creators on Solana.
-          </p>
-        </div>
-        <!-- <div class="flex gap-8">
-          <a href="#" class="hover:text-white">Documentation</a>
-          <a href="#" class="hover:text-white">Discord</a>
-          <a href="#" class="hover:text-white">Twitter</a>
-        </div> -->
-      </div>
-      <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
-        <p>&copy; 2024 SOLX. All rights reserved.</p>
-      </div>
-    </UContainer>
-  </footer>
 </template>
