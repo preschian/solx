@@ -13,6 +13,10 @@ export default defineEventHandler(async (event) => {
   })
 
   const assets = assetsByCollection.find(asset => asset.owner === query.owner)
+  if (!assets) {
+    return { query, asset: null, metadata: null }
+  }
+
   const asset = {
     owner: assets?.owner,
     uri: assets?.uri,
