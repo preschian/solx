@@ -1,12 +1,23 @@
 <script lang="ts" setup>
+interface Link {
+  title: string
+  value: string
+}
+
 const profile = reactive({
   slug: '',
   name: '',
   bio: '',
   avatar: '',
+  links: [] as Link[],
 })
 
 const openEditProfile = ref(false)
+const openAddLink = ref(false)
+const newLink = reactive({
+  title: '',
+  value: '',
+})
 </script>
 
 <template>
@@ -50,6 +61,27 @@ const openEditProfile = ref(false)
                   <UFormField label="Bio">
                     <UTextarea v-model="profile.bio" class="w-full" />
                   </UFormField>
+                </div>
+              </template>
+
+              <template #footer>
+                <div class="flex justify-end gap-2">
+                  <UButton
+                    color="neutral" variant="soft" @click="() => {
+                      profile.slug = ''
+                      profile.name = ''
+                      profile.bio = ''
+                      openEditProfile = false
+                    }"
+                  >
+                    Cancel
+                  </UButton>
+                  <UButton
+                    color="primary"
+                    @click="openEditProfile = false"
+                  >
+                    Save Changes
+                  </UButton>
                 </div>
               </template>
             </UModal>
@@ -200,16 +232,48 @@ const openEditProfile = ref(false)
           <h2 class="text-xl font-semibold text-primary-900">
             Your Links
           </h2>
-          <UButton color="primary" icon="i-lucide-plus">
-            Add New Link
-          </UButton>
+          <UModal v-model:open="openAddLink" title="Add New Link">
+            <UButton color="primary" icon="i-lucide-plus">
+              Add New Link
+            </UButton>
+
+            <template #body>
+              <div class="flex flex-col gap-4">
+                <UFormField label="Title">
+                  <UInput v-model="newLink.title" placeholder="e.g., My Website" class="w-full" />
+                </UFormField>
+                <UFormField label="URL">
+                  <UInput v-model="newLink.value" placeholder="https://example.com" class="w-full" />
+                </UFormField>
+              </div>
+            </template>
+
+            <template #footer>
+              <div class="flex justify-end gap-2">
+                <UButton color="neutral" variant="soft" @click="openAddLink = false">
+                  Cancel
+                </UButton>
+                <UButton
+                  color="primary"
+                  @click="() => {
+                    profile.links.push({ ...newLink });
+                    newLink.title = '';
+                    newLink.value = '';
+                    openAddLink = false;
+                  }"
+                >
+                  Add Link
+                </UButton>
+              </div>
+            </template>
+          </UModal>
         </div>
       </div>
 
       <!-- Links List -->
       <div class="p-4">
         <!-- Empty State -->
-        <div class="p-12 text-center">
+        <div v-if="profile.links.length === 0" class="p-12 text-center">
           <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-primary-100 flex items-center justify-center">
             <UIcon name="i-lucide-link" class="text-2xl text-primary-600" />
           </div>
@@ -219,29 +283,28 @@ const openEditProfile = ref(false)
           <p class="text-primary-700 mb-6">
             Add your first link to start building your profile
           </p>
-          <UButton color="primary" icon="i-lucide-plus">
+          <UButton color="primary" icon="i-lucide-plus" @click="openAddLink = true">
             Add Your First Link
           </UButton>
         </div>
 
-        <!-- Link Item Template (Hidden until links are added) -->
-        <div class="hidden">
-          <div class="p-6 flex items-center gap-4 hover:bg-primary-50">
+        <!-- Link Items -->
+        <div v-else class="space-y-4">
+          <div v-for="(link, index) in profile.links" :key="index" class="p-6 flex items-center gap-4 hover:bg-primary-50">
             <div class="w-10 h-10 rounded-lg flex items-center justify-center">
               <UIcon name="i-lucide-globe" class="text-lg text-primary-600" />
             </div>
             <div class="flex-1">
               <div class="font-medium text-primary-900">
-                Website
+                {{ link.title }}
               </div>
               <div class="text-sm text-primary-700">
-                https://example.com
+                {{ link.value }}
               </div>
             </div>
             <div class="flex items-center gap-2">
               <UButton color="primary" variant="soft" icon="i-lucide-edit" size="sm" />
               <UButton color="primary" variant="soft" icon="i-lucide-trash" size="sm" />
-              <UButton color="primary" variant="soft" icon="i-lucide-grip-vertical" size="sm" />
             </div>
           </div>
         </div>
