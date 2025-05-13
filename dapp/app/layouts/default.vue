@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { WalletMultiButton } from 'solana-wallets-vue'
+import { useWallet, WalletMultiButton } from 'solana-wallets-vue'
 
 const route = useRoute()
+const { publicKey } = useWallet()
 
 const isDashboard = computed(() => route.name === 'user-dashboard')
 </script>
@@ -19,16 +20,17 @@ const isDashboard = computed(() => route.name === 'user-dashboard')
             Dashboard
           </div>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2">
           <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-share-2">
             Share
           </UButton>
           <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-qr-code">
             QR Code
           </UButton>
-          <!-- <UButton v-if="isDashboard" color="primary" icon="i-lucide-user">
+          <!-- edit profile button -->
+          <UButton v-if="publicKey" color="primary" icon="i-lucide-user" :to="`/${publicKey}/dashboard`">
             Profile
-          </UButton> -->
+          </UButton>
 
           <ClientOnly>
             <div class="solana-wallet">

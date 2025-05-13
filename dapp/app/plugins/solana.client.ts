@@ -14,8 +14,10 @@ const walletOptions = {
     new SolflareWalletAdapter({ network: WalletAdapterNetwork.Devnet }),
   ],
   autoConnect: true,
+  cluster: 'devnet',
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
+  // @ts-expect-error - no Cluster type exported from solana-wallets-vue
   nuxtApp.vueApp.use(SolanaWallets, walletOptions)
 })
