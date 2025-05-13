@@ -2,6 +2,17 @@ import { fetchAssetsByCollection } from '@metaplex-foundation/mpl-core'
 import { publicKey } from '@metaplex-foundation/umi'
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
 
+interface Metadata {
+  name?: string
+  description?: string
+  fullName?: string
+  image?: string
+  links?: {
+    title: string
+    value: string
+  }[]
+}
+
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
 
@@ -24,7 +35,7 @@ export default defineEventHandler(async (event) => {
     id: assets.publicKey,
   }
 
-  let metadata
+  let metadata: Metadata | null = null
   if (asset?.uri) {
     const data = await fetch(asset?.uri)
     metadata = await data.json()

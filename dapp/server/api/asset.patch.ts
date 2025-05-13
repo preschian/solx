@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   const { walletSecret } = useRuntimeConfig(event)
 
   const umi = createUmi('https://api.devnet.solana.com')
-  const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(JSON.parse(walletSecret)))
+  const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(walletSecret as unknown as ArrayBuffer))
   const signer = keypairIdentity(keypair)
   umi.use(signer)
   umi.use(irysUploader())
@@ -29,5 +29,5 @@ export default defineEventHandler(async (event) => {
     uri,
   }).sendAndConfirm(umi)
 
-  return { }
+  return { assetId, body }
 })

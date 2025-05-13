@@ -1,14 +1,16 @@
 <script lang="ts" setup>
+import { useWallet } from 'solana-wallets-vue'
+
 interface Link {
   title: string
   value: string
 }
 
 const profile = reactive({
-  slug: '',
   name: '',
-  bio: '',
-  avatar: '',
+  fullName: '',
+  description: '',
+  image: '',
   links: [] as Link[],
 })
 
@@ -20,13 +22,35 @@ const newLink = reactive({
 const openEditProfile = ref(false)
 const openAddLink = ref(false)
 
-onMounted(async () => {
-  const data = await $fetch('/api/asset', {
-    query: {
-      owner: 'EystbEtkxSQio5aEGU5ELQCRSD5va4okk8GeQjFuANcB',
-    },
-  })
-  console.log(data)
+const { publicKey } = useWallet()
+const { data } = useFetch('/api/asset', {
+  query: {
+    owner: publicKey.value?.toString(),
+  },
+})
+
+async function updateProfile() {
+  try {
+    await $fetch('/api/asset', {
+      method: 'PATCH',
+      body: {
+        ...profile,
+        assetId: data.value?.asset?.id,
+      },
+    })
+    openEditProfile.value = false
+  }
+  catch (error) {
+    console.error('Failed to update profile:', error)
+  }
+}
+
+watchEffect(() => {
+  profile.name = data.value?.metadata?.name ?? ''
+  profile.fullName = data.value?.metadata?.fullName ?? ''
+  profile.description = data.value?.metadata?.description ?? ''
+  profile.image = data.value?.metadata?.image ?? ''
+  profile.links = data.value?.metadata?.links ?? []
 })
 </script>
 
@@ -63,13 +87,13 @@ onMounted(async () => {
               <template #body>
                 <div class="flex flex-col gap-2">
                   <UFormField label="Slug">
-                    <UInput v-model="profile.slug" class="w-full" />
-                  </UFormField>
-                  <UFormField label="Name">
                     <UInput v-model="profile.name" class="w-full" />
                   </UFormField>
+                  <UFormField label="Name">
+                    <UInput v-model="profile.fullName" class="w-full" />
+                  </UFormField>
                   <UFormField label="Bio">
-                    <UTextarea v-model="profile.bio" class="w-full" />
+                    <UTextarea v-model="profile.description" class="w-full" />
                   </UFormField>
                 </div>
               </template>
@@ -77,12 +101,7 @@ onMounted(async () => {
               <template #footer>
                 <div class="flex justify-end gap-2">
                   <UButton
-                    color="neutral" variant="soft" @click="() => {
-                      profile.slug = ''
-                      profile.name = ''
-                      profile.bio = ''
-                      openEditProfile = false
-                    }"
+                    color="neutral" variant="soft" @click="openEditProfile = false"
                   >
                     Cancel
                   </UButton>
@@ -95,8 +114,8 @@ onMounted(async () => {
                 </div>
               </template>
             </UModal>
-            <UButton color="primary" variant="soft" icon="i-lucide-image">
-              Change Avatar
+            <UButton color="primary" icon="i-lucide-save" @click="updateProfile">
+              Update Profile
             </UButton>
           </div>
         </div>
@@ -299,8 +318,8 @@ onMounted(async () => {
         </div>
 
         <!-- Link Items -->
-        <div v-else class="space-y-4">
-          <div v-for="(link, index) in profile.links" :key="index" class="p-6 flex items-center gap-4 hover:bg-primary-50">
+        <div v-else class="space-y-2">
+          <div v-for="(link, index) in profile.links" :key="index" class="p-2 flex items-center gap-4 hover:bg-primary-50">
             <div class="w-10 h-10 rounded-lg flex items-center justify-center">
               <UIcon name="i-lucide-globe" class="text-lg text-primary-600" />
             </div>
