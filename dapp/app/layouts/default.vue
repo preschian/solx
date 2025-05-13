@@ -2,7 +2,7 @@
 import { useWallet, WalletMultiButton } from 'solana-wallets-vue'
 
 const route = useRoute()
-const { publicKey } = useWallet()
+// const { publicKey } = useWallet()
 
 const isDashboard = computed(() => route.name === 'user-dashboard')
 </script>
@@ -28,9 +28,9 @@ const isDashboard = computed(() => route.name === 'user-dashboard')
             QR Code
           </UButton>
           <!-- edit profile button -->
-          <UButton v-if="publicKey" color="primary" icon="i-lucide-user" :to="`/${publicKey}/dashboard`">
+          <!-- <UButton v-if="publicKey" color="primary" icon="i-lucide-user" :to="`/${publicKey}/dashboard`">
             Profile
-          </UButton>
+          </UButton> -->
 
           <ClientOnly>
             <div class="solana-wallet">

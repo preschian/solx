@@ -12,11 +12,21 @@ const profile = reactive({
   links: [] as Link[],
 })
 
-const openEditProfile = ref(false)
-const openAddLink = ref(false)
 const newLink = reactive({
   title: '',
   value: '',
+})
+
+const openEditProfile = ref(false)
+const openAddLink = ref(false)
+
+onMounted(async () => {
+  const data = await $fetch('/api/assets', {
+    query: {
+      owner: 'EystbEtkxSQio5aEGU5ELQCRSD5va4okk8GeQjFuANcB',
+    },
+  })
+  console.log(data)
 })
 </script>
 
