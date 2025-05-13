@@ -30,17 +30,17 @@
 
     <UContainer class="py-8">
       <!-- Profile Overview -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <!-- Profile Info -->
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-primary-100">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-primary-100">
           <div class="flex flex-col items-center text-center">
-            <div class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center mb-4">
+            <div class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center mb-6">
               <UIcon name="i-lucide-user" class="text-3xl text-primary-600" />
             </div>
-            <h1 class="text-xl font-bold mb-2 text-primary-900">
+            <h1 class="text-xl font-bold mb-3 text-primary-900">
               Your Profile
             </h1>
-            <p class="text-primary-700/80 mb-4">
+            <p class="text-primary-700/80 mb-6">
               Manage your profile information and appearance
             </p>
             <div class="flex gap-4">
@@ -55,11 +55,11 @@
         </div>
 
         <!-- Profile Stats -->
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-primary-100">
-          <h2 class="text-lg font-semibold mb-4 text-primary-900">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-primary-100">
+          <h2 class="text-lg font-semibold mb-6 text-primary-900">
             Profile Stats
           </h2>
-          <div class="space-y-4">
+          <div class="space-y-5">
             <div class="flex justify-between items-center">
               <span class="text-primary-700/80">Total Views</span>
               <span class="font-semibold text-primary-900">0</span>
@@ -76,11 +76,11 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="bg-white rounded-xl p-6 shadow-sm border border-primary-100">
-          <h2 class="text-lg font-semibold mb-4 text-primary-900">
+        <div class="bg-white rounded-xl p-4 shadow-sm border border-primary-100">
+          <h2 class="text-lg font-semibold mb-6 text-primary-900">
             Quick Actions
           </h2>
-          <div class="space-y-3">
+          <div class="space-y-4">
             <UButton to="/[user]" color="primary" variant="soft" block class="justify-start">
               <template #leading>
                 <UIcon name="i-lucide-eye" class="text-primary-600" />
@@ -111,7 +111,7 @@
 
       <!-- Links Management -->
       <div class="bg-white rounded-xl shadow-sm border border-primary-100">
-        <div class="p-6 border-b border-primary-100">
+        <div class="p-4 border-b border-primary-100">
           <div class="flex justify-between items-center">
             <h2 class="text-xl font-semibold text-primary-900">
               Your Links
@@ -123,16 +123,16 @@
         </div>
 
         <!-- Links List -->
-        <div class="divide-y divide-primary-100">
+        <div class="p-4">
           <!-- Empty State -->
-          <div class="p-8 text-center">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-100 flex items-center justify-center">
+          <div class="p-12 text-center">
+            <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-primary-100 flex items-center justify-center">
               <UIcon name="i-lucide-link" class="text-2xl text-primary-600" />
             </div>
-            <h3 class="text-lg font-semibold mb-2 text-primary-900">
+            <h3 class="text-lg font-semibold mb-3 text-primary-900">
               No Links Yet
             </h3>
-            <p class="text-primary-700/80 mb-4">
+            <p class="text-primary-700/80 mb-6">
               Add your first link to start building your profile
             </p>
             <UButton color="primary" icon="i-lucide-plus">
@@ -142,7 +142,7 @@
 
           <!-- Link Item Template (Hidden until links are added) -->
           <div class="hidden">
-            <div class="p-4 flex items-center gap-4 hover:bg-primary-50/50">
+            <div class="p-6 flex items-center gap-4 hover:bg-primary-50/50">
               <div class="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
                 <UIcon name="i-lucide-globe" class="text-lg text-primary-600" />
               </div>
