@@ -17,20 +17,31 @@
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <UButton color="primary" variant="soft" icon="i-lucide-settings">
-              Settings
+            <UButton color="primary" variant="soft" icon="i-lucide-share-2">
+              Share
             </UButton>
-            <UButton color="primary">
-              Preview Profile
+            <UButton color="primary" variant="soft" icon="i-lucide-qr-code">
+              QR Code
+            </UButton>
+            <UButton color="primary" icon="i-lucide-user">
+              Profile
             </UButton>
           </div>
         </div>
       </UContainer>
     </div>
 
-    <UContainer class="py-8">
+    <UContainer class="mt-8">
+      <UAlert
+        description="This app is currently running on Solana Devnet. Get test SOL from Solana Faucet: https://faucet.solana.com/"
+        color="info"
+        icon="i-lucide-terminal"
+      />
+    </UContainer>
+
+    <UContainer class="mt-8">
       <!-- Profile Overview -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Profile Info -->
         <div class="bg-white rounded-xl p-4 shadow-sm border border-primary-100">
           <div class="flex flex-col items-center text-center">
@@ -112,42 +123,83 @@
           </div>
         </div>
 
-        <!-- Quick Actions -->
+        <!-- Profile Completion Status -->
         <div class="bg-white rounded-xl p-4 shadow-sm border border-primary-100">
-          <h2 class="text-lg font-semibold mb-4 text-primary-900">
-            Quick Actions
-          </h2>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-primary-900">
+              Profile Status
+            </h2>
+            <div class="text-sm font-medium text-primary-600">
+              25% Complete
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-full h-2 bg-primary-100 rounded-full mb-6">
+            <div class="h-2 bg-primary-600 rounded-full" style="width: 25%" />
+          </div>
+
+          <!-- Completion Tasks -->
           <div class="space-y-4">
-            <UButton to="/[user]" color="primary" variant="soft" block class="justify-start">
-              <template #leading>
-                <UIcon name="i-lucide-eye" class="text-primary-600" />
-              </template>
-              View Public Profile
-            </UButton>
-            <UButton to="/explore" color="primary" variant="soft" block class="justify-start">
-              <template #leading>
-                <UIcon name="i-lucide-compass" class="text-primary-600" />
-              </template>
-              Discover Profiles
-            </UButton>
-            <UButton color="primary" variant="soft" block class="justify-start">
-              <template #leading>
-                <UIcon name="i-lucide-share-2" class="text-primary-600" />
-              </template>
-              Share Profile
-            </UButton>
-            <UButton color="primary" variant="soft" block class="justify-start">
-              <template #leading>
-                <UIcon name="i-lucide-qr-code" class="text-primary-600" />
-              </template>
-              Generate QR Code
-            </UButton>
+            <!-- Add Profile Photo -->
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full border-2 border-primary-600 flex items-center justify-center">
+                <UIcon name="i-lucide-check" class="text-xs text-primary-600" />
+              </div>
+              <div class="flex-1">
+                <div class="text-sm font-medium text-primary-900">
+                  Add Profile Photo
+                </div>
+                <div class="text-xs text-primary-600">
+                  Make your profile more personal
+                </div>
+              </div>
+              <UButton color="primary" variant="soft" size="xs" icon="i-lucide-image">
+                Add
+              </UButton>
+            </div>
+
+            <!-- Add Bio -->
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full border-2 border-primary-200 flex items-center justify-center">
+                <UIcon name="i-lucide-plus" class="text-xs text-primary-400" />
+              </div>
+              <div class="flex-1">
+                <div class="text-sm font-medium text-primary-900">
+                  Add Bio
+                </div>
+                <div class="text-xs text-primary-600">
+                  Tell others about yourself
+                </div>
+              </div>
+              <UButton color="primary" variant="soft" size="xs" icon="i-lucide-edit">
+                Add
+              </UButton>
+            </div>
+
+            <!-- Add Links -->
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full border-2 border-primary-200 flex items-center justify-center">
+                <UIcon name="i-lucide-plus" class="text-xs text-primary-400" />
+              </div>
+              <div class="flex-1">
+                <div class="text-sm font-medium text-primary-900">
+                  Add Links
+                </div>
+                <div class="text-xs text-primary-600">
+                  Connect your social profiles
+                </div>
+              </div>
+              <UButton color="primary" variant="soft" size="xs" icon="i-lucide-link">
+                Add
+              </UButton>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Links Management -->
-      <div class="bg-white rounded-xl shadow-sm border border-primary-100">
+      <div class="bg-white rounded-xl shadow-sm border border-primary-100 mt-8 mb-8">
         <div class="p-4 border-b border-primary-100">
           <div class="flex justify-between items-center">
             <h2 class="text-xl font-semibold text-primary-900">
@@ -204,7 +256,7 @@
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 mt-12">
-      <UContainer class="py-8 sm:py-12">
+      <UContainer class="py-8">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
           <div class="text-center sm:text-left">
             <h3 class="text-white font-bold text-lg mb-2">
@@ -225,11 +277,11 @@
             </a>
           </div>
         </div>
-        <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
-          <div class="flex items-center justify-center gap-2 mb-2">
+        <div class="border-t border-gray-800 mt-4 pt-4 text-sm text-center">
+          <!-- <div class="flex items-center justify-center gap-2 mb-2">
             <UIcon name="i-lucide-network" class="text-primary-500" />
             <span class="text-gray-400">Running on Solana Devnet</span>
-          </div>
+          </div> -->
           <p>&copy; {{ new Date().getFullYear() }} SOLX. All rights reserved.</p>
         </div>
       </UContainer>
