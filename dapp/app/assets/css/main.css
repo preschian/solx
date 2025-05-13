@@ -25,3 +25,11 @@
 .dark {
   --ui-primary: white;
 }
+
+.solana-wallet > * {
+  @apply h-8;
+}
+
+.solana-wallet .swv-button.swv-button-trigger {
+  @apply bg-primary text-white py-2 px-2.5 leading-8 h-8;
+}

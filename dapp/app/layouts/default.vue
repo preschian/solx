@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { WalletMultiButton } from 'solana-wallets-vue'
+
 const route = useRoute()
 
 const isDashboard = computed(() => route.name === 'user-dashboard')
@@ -17,21 +19,22 @@ const isDashboard = computed(() => route.name === 'user-dashboard')
             Dashboard
           </div>
         </div>
-        <div v-if="isDashboard" class="flex items-center gap-4">
-          <UButton color="primary" variant="soft" icon="i-lucide-share-2">
+        <div class="flex items-center gap-4">
+          <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-share-2">
             Share
           </UButton>
-          <UButton color="primary" variant="soft" icon="i-lucide-qr-code">
+          <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-qr-code">
             QR Code
           </UButton>
-          <UButton color="primary" icon="i-lucide-user">
+          <!-- <UButton v-if="isDashboard" color="primary" icon="i-lucide-user">
             Profile
-          </UButton>
-        </div>
-        <div v-else>
-          <UButton color="primary" icon="i-lucide-user">
-            Connect Wallet
-          </UButton>
+          </UButton> -->
+
+          <ClientOnly>
+            <div class="solana-wallet">
+              <WalletMultiButton />
+            </div>
+          </ClientOnly>
         </div>
       </div>
     </UContainer>
