@@ -2,6 +2,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
+  runtimeConfig: {
+    walletSecret: '',
+  },
+
   modules: [
     '@nuxt/ui',
     '@nuxt/eslint',

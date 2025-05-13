@@ -21,7 +21,7 @@ const openEditProfile = ref(false)
 const openAddLink = ref(false)
 
 onMounted(async () => {
-  const data = await $fetch('/api/assets', {
+  const data = await $fetch('/api/asset', {
     query: {
       owner: 'EystbEtkxSQio5aEGU5ELQCRSD5va4okk8GeQjFuANcB',
     },

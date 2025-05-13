@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
     owner: assets?.owner,
     uri: assets?.uri,
     name: assets?.name,
+    id: assets.publicKey,
   }
 
   let metadata
