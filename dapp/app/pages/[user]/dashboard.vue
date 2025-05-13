@@ -1,0 +1,201 @@
+<script setup>
+// Add your script logic here
+</script>
+
+<template>
+  <div class="min-h-screen bg-primary-50/50">
+    <!-- Top Navigation -->
+    <div class="bg-white border-b border-primary-100">
+      <UContainer class="py-4">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-4">
+            <NuxtLink to="/" class="text-2xl font-bold text-primary-600">
+              SOLX
+            </NuxtLink>
+            <div class="text-sm text-primary-700/80">
+              Dashboard
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <UButton color="primary" variant="soft" icon="i-lucide-settings">
+              Settings
+            </UButton>
+            <UButton color="primary">
+              Preview Profile
+            </UButton>
+          </div>
+        </div>
+      </UContainer>
+    </div>
+
+    <UContainer class="py-8">
+      <!-- Profile Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <!-- Profile Info -->
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-primary-100">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center mb-4">
+              <UIcon name="i-lucide-user" class="text-3xl text-primary-600" />
+            </div>
+            <h1 class="text-xl font-bold mb-2 text-primary-900">
+              Your Profile
+            </h1>
+            <p class="text-primary-700/80 mb-4">
+              Manage your profile information and appearance
+            </p>
+            <div class="flex gap-4">
+              <UButton color="primary" variant="soft" icon="i-lucide-edit">
+                Edit Profile
+              </UButton>
+              <UButton color="primary" variant="soft" icon="i-lucide-image">
+                Change Avatar
+              </UButton>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Stats -->
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-primary-100">
+          <h2 class="text-lg font-semibold mb-4 text-primary-900">
+            Profile Stats
+          </h2>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-primary-700/80">Total Views</span>
+              <span class="font-semibold text-primary-900">0</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-primary-700/80">Total Clicks</span>
+              <span class="font-semibold text-primary-900">0</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-primary-700/80">Active Links</span>
+              <span class="font-semibold text-primary-900">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-primary-100">
+          <h2 class="text-lg font-semibold mb-4 text-primary-900">
+            Quick Actions
+          </h2>
+          <div class="space-y-3">
+            <UButton to="/[user]" color="primary" variant="soft" block class="justify-start">
+              <template #leading>
+                <UIcon name="i-lucide-eye" class="text-primary-600" />
+              </template>
+              View Public Profile
+            </UButton>
+            <UButton to="/explore" color="primary" variant="soft" block class="justify-start">
+              <template #leading>
+                <UIcon name="i-lucide-compass" class="text-primary-600" />
+              </template>
+              Discover Profiles
+            </UButton>
+            <UButton color="primary" variant="soft" block class="justify-start">
+              <template #leading>
+                <UIcon name="i-lucide-share-2" class="text-primary-600" />
+              </template>
+              Share Profile
+            </UButton>
+            <UButton color="primary" variant="soft" block class="justify-start">
+              <template #leading>
+                <UIcon name="i-lucide-qr-code" class="text-primary-600" />
+              </template>
+              Generate QR Code
+            </UButton>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links Management -->
+      <div class="bg-white rounded-xl shadow-sm border border-primary-100">
+        <div class="p-6 border-b border-primary-100">
+          <div class="flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-primary-900">
+              Your Links
+            </h2>
+            <UButton color="primary" icon="i-lucide-plus">
+              Add New Link
+            </UButton>
+          </div>
+        </div>
+
+        <!-- Links List -->
+        <div class="divide-y divide-primary-100">
+          <!-- Empty State -->
+          <div class="p-8 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-100 flex items-center justify-center">
+              <UIcon name="i-lucide-link" class="text-2xl text-primary-600" />
+            </div>
+            <h3 class="text-lg font-semibold mb-2 text-primary-900">
+              No Links Yet
+            </h3>
+            <p class="text-primary-700/80 mb-4">
+              Add your first link to start building your profile
+            </p>
+            <UButton color="primary" icon="i-lucide-plus">
+              Add Your First Link
+            </UButton>
+          </div>
+
+          <!-- Link Item Template (Hidden until links are added) -->
+          <div class="hidden">
+            <div class="p-4 flex items-center gap-4 hover:bg-primary-50/50">
+              <div class="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
+                <UIcon name="i-lucide-globe" class="text-lg text-primary-600" />
+              </div>
+              <div class="flex-1">
+                <div class="font-medium text-primary-900">
+                  Website
+                </div>
+                <div class="text-sm text-primary-700/80">
+                  https://example.com
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <UButton color="primary" variant="soft" icon="i-lucide-edit" size="sm" />
+                <UButton color="primary" variant="soft" icon="i-lucide-trash" size="sm" />
+                <UButton color="primary" variant="soft" icon="i-lucide-grip-vertical" size="sm" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </UContainer>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 mt-12">
+      <UContainer class="py-8 sm:py-12">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+          <div class="text-center sm:text-left">
+            <h3 class="text-white font-bold text-lg mb-2">
+              SOLX
+            </h3>
+            <p class="text-sm max-w-xs">
+              The trusted gateway to Web3 organizations and creators on Solana.
+            </p>
+          </div>
+          <div class="flex gap-8">
+            <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-white flex items-center gap-2">
+              <UIcon name="i-lucide-github" class="text-lg" />
+              <span>GitHub</span>
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" class="hover:text-white flex items-center gap-2">
+              <UIcon name="i-lucide-twitter" class="text-lg" />
+              <span>Twitter</span>
+            </a>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
+          <div class="flex items-center justify-center gap-2 mb-2">
+            <UIcon name="i-lucide-network" class="text-primary-500" />
+            <span class="text-gray-400">Running on Solana Devnet</span>
+          </div>
+          <p>&copy; {{ new Date().getFullYear() }} SOLX. All rights reserved.</p>
+        </div>
+      </UContainer>
+    </footer>
+  </div>
+</template>
