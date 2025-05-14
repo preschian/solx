@@ -22,16 +22,20 @@ export default defineEventHandler(async (event) => {
   const collectionId = publicKey('8P1iwLHdhWCTzCopPSENjHX7cF4eeuFADmzJRVSWjAkm')
   const collection = await fetchCollection(umi, collectionId)
 
-  const name = body.name
-  const uri = await umi.uploader.uploadJson(body)
-
   const mint = generateSigner(umi)
+  const data = {
+    ...body,
+    assetId: mint.publicKey,
+  }
+  const name = data.name
+  const uri = await umi.uploader.uploadJson(data)
+
   await create(umi, {
     asset: mint,
     collection,
     name,
     uri,
-    owner: publicKey(body.owner),
+    owner: publicKey(data.owner),
     plugins: [
       {
         type: 'Royalties',
@@ -60,8 +64,8 @@ export default defineEventHandler(async (event) => {
     ],
   }).sendAndConfirm(umi)
 
-  await redis.set(`slug:${body.name}`, body)
-  await redis.set(`user:${body.owner}`, body)
+  await redis.set(`slug:${data.name}`, data)
+  await redis.set(`user:${data.owner}`, data)
 
-  return { body }
+  return { data }
 })

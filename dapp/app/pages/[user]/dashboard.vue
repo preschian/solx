@@ -17,6 +17,20 @@ const profile = reactive({
   links: [] as Link[],
 })
 
+// Add username validation and sanitization
+const usernameError = ref('')
+
+// Watch username changes and validate
+watch(() => profile.name, (newValue) => {
+  // Sanitize the username
+  const sanitized = sanitizeUsername(newValue)
+  if (sanitized !== newValue)
+    profile.name = sanitized
+
+  // Validate the username
+  usernameError.value = validateUsername(sanitized)
+})
+
 const newLink = reactive({
   title: '',
   value: '',
@@ -255,10 +269,10 @@ function reloadPage() {
             />
           </div>
           <h1 class="text-xl font-bold mb-3 text-primary-900">
-            Your Profile
+            {{ data?.metadata?.fullName || 'Your Profile' }}
           </h1>
           <p class="text-primary-700 mb-4">
-            Manage your profile information and appearance
+            {{ data?.metadata?.description || 'Manage your profile information and appearance' }}
           </p>
           <div class="flex gap-4">
             <UModal v-model:open="openEditProfile" :dismissible="false" title="Edit Profile">
@@ -277,7 +291,20 @@ function reloadPage() {
                     </div>
                   </UFormField>
                   <UFormField label="Username">
-                    <UInput v-model="profile.name" class="w-full" />
+                    <div class="space-y-1">
+                      <UInput
+                        v-model="profile.name"
+                        class="w-full"
+                        :color="usernameError ? 'error' : undefined"
+                        placeholder="your-username"
+                      />
+                      <p v-if="usernameError" class="text-xs text-red-500">
+                        {{ usernameError }}
+                      </p>
+                      <p class="text-xs text-gray-500">
+                        This will be your profile URL: solx.app/{{ profile.name }}
+                      </p>
+                    </div>
                   </UFormField>
                   <UFormField label="Name">
                     <UInput v-model="profile.fullName" class="w-full" />
