@@ -39,63 +39,64 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="min-h-screen bg-primary-50">
-    <UContainer class="py-8">
-      <!-- Profile Header -->
-      <div class="max-w-2xl mx-auto">
-        <div class="bg-white rounded-xl p-8 shadow-sm border border-primary-100">
-          <!-- Profile Image -->
-          <div class="flex flex-col items-center">
-            <div class="w-16 h-16 rounded-full bg-primary-100 flex items-center justify-center mb-3 overflow-hidden">
-              <img
-                v-if="metadata?.image"
-                :src="metadata.image"
-                :alt="metadata.name"
-                class="w-full h-full object-cover"
-              >
-              <UIcon
-                v-else
-                name="i-lucide-user"
-                class="text-2xl text-primary-600"
-              />
-            </div>
-
-            <!-- Profile Info -->
-            <h1 class="text-2xl font-bold text-primary-900 mb-2">
-              {{ metadata?.fullName }}
-            </h1>
-            <p v-if="metadata?.description" class="text-primary-600 text-center mb-6 max-w-md">
-              {{ metadata?.description }}
-            </p>
-
-            <!-- Links -->
-            <div v-if="metadata?.links?.length" class="w-full">
-              <UButton
-                v-for="(link, index) in metadata.links"
-                :key="link.value"
-                :to="link.value"
-                target="_blank"
-                block
-                color="neutral"
-                variant="outline"
-                :class="{ 'mb-3': index !== metadata.links.length - 1 }"
-                class="py-2"
-                :icon="getLinkIcon(link)"
-              >
-                {{ link.title }}
-              </UButton>
-            </div>
-
-            <!-- No Links State -->
-            <div v-else class="text-center text-primary-500">
-              No links added yet
-            </div>
+  <div class="min-h-screen bg-white flex items-center">
+    <UContainer class="py-8 max-w-lg mx-auto">
+      <!-- Profile Card -->
+      <div class="text-center">
+        <!-- Profile Image -->
+        <div class="mb-4">
+          <div class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center mx-auto overflow-hidden">
+            <img
+              v-if="metadata?.image"
+              :src="metadata.image"
+              :alt="metadata.name"
+              class="w-full h-full object-cover"
+            >
+            <UIcon
+              v-else
+              name="i-lucide-user"
+              class="text-3xl text-primary-600"
+            />
           </div>
         </div>
 
+        <!-- Profile Info -->
+        <h1 class="text-2xl font-bold text-primary-900 mb-1">
+          {{ metadata?.fullName }}
+        </h1>
+        <!-- <div class="flex items-center justify-center gap-1 mb-4">
+          <span class="text-sm text-primary-500">@{{ metadata?.name }}</span>
+          <UIcon name="i-lucide-badge-check" class="text-primary-500 w-4 h-4" />
+        </div> -->
+        <p v-if="metadata?.description" class="text-primary-600 text-sm mb-8 max-w-md mx-auto">
+          {{ metadata?.description }}
+        </p>
+
+        <!-- Links -->
+        <div v-if="metadata?.links?.length" class="space-y-2.5">
+          <UButton
+            v-for="link in metadata.links"
+            :key="link.value"
+            :to="link.value"
+            target="_blank"
+            block
+            color="neutral"
+            variant="outline"
+            class="py-2.5 h-auto text-sm font-medium"
+            :icon="getLinkIcon(link)"
+          >
+            {{ link.title }}
+          </UButton>
+        </div>
+
+        <!-- No Links State -->
+        <div v-else class="text-center text-primary-500">
+          No links added yet
+        </div>
+
         <!-- Footer -->
-        <div class="mt-4 text-center">
-          <p class="text-sm text-primary-500">
+        <div class="mt-8">
+          <p class="text-xs text-primary-400">
             Powered by
             <a href="/" class="text-primary-600 hover:text-primary-700 font-medium">
               SOLX
