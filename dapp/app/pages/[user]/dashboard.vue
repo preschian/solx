@@ -133,9 +133,10 @@ async function updateProfile() {
     updateStatus.success = false
 
     await $fetch('/api/asset', {
-      method: 'PATCH',
+      method: data.value?.metadata?.assetId ? 'PATCH' : 'POST',
       body: {
         ...profile,
+        owner: route.params.user,
         assetId: data.value?.metadata?.assetId,
       },
     })
