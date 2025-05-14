@@ -14,15 +14,21 @@ export default defineEventHandler(async (event) => {
 
   const { walletSecret } = useRuntimeConfig(event)
 
-  const irysUploader = await Uploader(Solana).withWallet(walletSecret).withRpc('https://api.devnet.solana.com').devnet()
-  const fundTx = await irysUploader.fund(irysUploader.utils.toAtomic(3))
-  console.log(
-    `Successfully funded ${irysUploader.utils.fromAtomic(fundTx.quantity)} ${
-      irysUploader.token
-    }`,
-  )
+  const irys = await Uploader(Solana).withWallet(walletSecret).withRpc('https://api.devnet.solana.com').devnet()
+
+  // fund the upload
+  try {
+    const price = await irys.getPrice(file.data.length)
+    await irys.fund(price)
+    console.log(`Successfully funded ${irys.utils.fromAtomic(price)} ${irys.token}`)
+  }
+  catch (error) {
+    console.error('Failed to fund upload:', error)
+  }
+
+  // upload the file
   const tags = [{ name: 'Content-Type', value: file.type }]
-  const upload = await irysUploader.upload(file.data, { tags })
+  const upload = await irys.upload(file.data, { tags })
 
   return { upload, file }
 })
