@@ -586,7 +586,7 @@ function reloadPage() {
             <div class="w-10 h-10 rounded-lg flex items-center justify-center">
               <UIcon name="i-lucide-globe" class="text-lg text-primary-600" />
             </div>
-            <div class="flex-1">
+            <div class="flex-1 truncate">
               <div class="font-medium text-primary-900">
                 {{ link.title }}
               </div>

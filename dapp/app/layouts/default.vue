@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-const route = useRoute()
-
-const isDashboard = computed(() => route.name === 'user-dashboard')
+// const route = useRoute()
+// const isDashboard = computed(() => route.name === 'user-dashboard')
 </script>
 
 <template>
@@ -13,9 +12,6 @@ const isDashboard = computed(() => route.name === 'user-dashboard')
           <NuxtLink to="/" class="text-2xl font-bold text-primary">
             SOLX
           </NuxtLink>
-          <div v-if="isDashboard" class="text-sm text-primary-700">
-            Dashboard
-          </div>
         </div>
         <div class="flex items-center gap-2">
           <!-- <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-share-2">
