@@ -4,11 +4,6 @@ interface Link {
   value: string
 }
 
-interface ProfileTask {
-  title: string
-  completed: boolean
-}
-
 const profile = reactive({
   name: '',
   fullName: '',
@@ -110,28 +105,20 @@ const hasProfileChanges = computed(() => {
 })
 
 const profileCompletion = computed(() => {
+  const metadata = data.value?.metadata
+
   const tasks = [
-    { completed: Boolean(profile.image), weight: 1 },
-    {
-      completed: Boolean(profile.name) && Boolean(profile.fullName) && Boolean(profile.description),
-      weight: 1,
-    },
-    { completed: profile.links.length > 0, weight: 1 },
+    Boolean(metadata?.image),
+    Boolean(metadata?.name) && Boolean(metadata?.fullName) && Boolean(metadata?.description),
+    (metadata?.links?.length || 0) > 0,
   ]
 
-  const totalWeight = tasks.reduce((sum, task) => sum + task.weight, 0)
-  const completedWeight = tasks.reduce((sum, task) => sum + (task.completed ? task.weight : 0), 0)
-  const percentage = Math.round((completedWeight / totalWeight) * 100)
-
-  const profileTasks: ProfileTask[] = [
-    { title: 'Add Profile Photo', completed: tasks[0]?.completed ?? false },
-    { title: 'Add Basic Info', completed: tasks[1]?.completed ?? false },
-    { title: 'Add Links', completed: tasks[2]?.completed ?? false },
-  ]
+  const completedCount = tasks.filter(Boolean).length
+  const percentage = Math.round((completedCount / tasks.length) * 100)
 
   return {
     percentage,
-    tasks: profileTasks,
+    tasks,
   }
 })
 
@@ -285,8 +272,8 @@ function reloadPage() {
                   <UFormField label="Profile Photo">
                     <div class="space-y-4">
                       <UInput type="file" accept="image/*" @change="handleFileChange" />
-                      <div v-if="imagePreview" class="w-32 h-32 mx-auto rounded-full overflow-hidden">
-                        <img :src="imagePreview" alt="Profile preview" class="w-full h-full object-cover">
+                      <div v-if="imagePreview || data?.metadata?.image" class="w-32 h-32 mx-auto rounded-full overflow-hidden">
+                        <img :src="imagePreview || data?.metadata?.image" alt="Profile preview" class="w-full h-full object-cover">
                       </div>
                     </div>
                   </UFormField>
@@ -297,12 +284,13 @@ function reloadPage() {
                         class="w-full"
                         :color="usernameError ? 'error' : undefined"
                         placeholder="your-username"
+                        maxlength="30"
                       />
                       <p v-if="usernameError" class="text-xs text-red-500">
                         {{ usernameError }}
                       </p>
                       <p class="text-xs text-gray-500">
-                        This will be your profile URL: solx.app/{{ profile.name }}
+                        This will be your profile URL: <span class="font-bold">solx.im/{{ profile.name }}</span>
                       </p>
                     </div>
                   </UFormField>
@@ -433,11 +421,11 @@ function reloadPage() {
           <div class="flex items-center gap-3">
             <div
               class="w-5 h-5 rounded-full border-2 flex items-center justify-center"
-              :class="profileCompletion.tasks[0]?.completed ? 'border-primary-600' : 'border-primary-200'"
+              :class="profileCompletion.tasks[0] ? 'border-success-600' : 'border-primary-200'"
             >
               <UIcon
-                :name="profileCompletion.tasks[0]?.completed ? 'i-lucide-check' : 'i-lucide-plus'"
-                :class="profileCompletion.tasks[0]?.completed ? 'text-xs text-primary-600' : 'text-xs text-primary-400'"
+                :name="profileCompletion.tasks[0] ? 'i-lucide-check' : 'i-lucide-plus'"
+                :class="profileCompletion.tasks[0] ? 'text-xs text-success-600' : 'text-xs text-primary-400'"
               />
             </div>
             <div class="flex-1">
@@ -449,7 +437,7 @@ function reloadPage() {
               </div>
             </div>
             <UButton
-              v-if="!profileCompletion.tasks[0]?.completed"
+              v-if="!profileCompletion.tasks[0]"
               color="primary"
               variant="soft"
               size="xs"
@@ -463,11 +451,11 @@ function reloadPage() {
           <div class="flex items-center gap-3">
             <div
               class="w-5 h-5 rounded-full border-2 flex items-center justify-center"
-              :class="profileCompletion.tasks[1]?.completed ? 'border-primary-600' : 'border-primary-200'"
+              :class="profileCompletion.tasks[1] ? 'border-success-600' : 'border-primary-200'"
             >
               <UIcon
-                :name="profileCompletion.tasks[1]?.completed ? 'i-lucide-check' : 'i-lucide-plus'"
-                :class="profileCompletion.tasks[1]?.completed ? 'text-xs text-primary-600' : 'text-xs text-primary-400'"
+                :name="profileCompletion.tasks[1] ? 'i-lucide-check' : 'i-lucide-plus'"
+                :class="profileCompletion.tasks[1] ? 'text-xs text-success-600' : 'text-xs text-primary-400'"
               />
             </div>
             <div class="flex-1">
@@ -479,7 +467,7 @@ function reloadPage() {
               </div>
             </div>
             <UButton
-              v-if="!profileCompletion.tasks[1]?.completed"
+              v-if="!profileCompletion.tasks[1]"
               color="primary"
               variant="soft"
               size="xs"
@@ -494,11 +482,11 @@ function reloadPage() {
           <div class="flex items-center gap-3">
             <div
               class="w-5 h-5 rounded-full border-2 flex items-center justify-center"
-              :class="profileCompletion.tasks[2]?.completed ? 'border-primary-600' : 'border-primary-200'"
+              :class="profileCompletion.tasks[2] ? 'border-success-600' : 'border-primary-200'"
             >
               <UIcon
-                :name="profileCompletion.tasks[2]?.completed ? 'i-lucide-check' : 'i-lucide-plus'"
-                :class="profileCompletion.tasks[2]?.completed ? 'text-xs text-primary-600' : 'text-xs text-primary-400'"
+                :name="profileCompletion.tasks[2] ? 'i-lucide-check' : 'i-lucide-plus'"
+                :class="profileCompletion.tasks[2] ? 'text-xs text-success-600' : 'text-xs text-primary-400'"
               />
             </div>
             <div class="flex-1">
@@ -510,7 +498,7 @@ function reloadPage() {
               </div>
             </div>
             <UButton
-              v-if="!profileCompletion.tasks[2]?.completed"
+              v-if="!profileCompletion.tasks[2]"
               color="primary"
               variant="soft"
               size="xs"
