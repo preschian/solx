@@ -24,6 +24,13 @@ export default defineEventHandler(async (event) => {
     token: kvRestApiToken,
   })
 
+  if (query.slug) {
+    const user = (await redis.get(`slug:${query.slug}`)) as Metadata | undefined
+    if (user) {
+      return { query, metadata: user }
+    }
+  }
+
   const user = (await redis.get(`user:${query.owner}`)) as Metadata | undefined
   if (user?.assetId) {
     return { query, metadata: user }

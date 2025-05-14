@@ -26,6 +26,16 @@
   --ui-primary: white;
 }
 
+html, 
+body,
+#__nuxt {
+  @apply h-full;
+}
+
+body {
+  @apply antialiased;
+}
+
 .solana-wallet > * {
   @apply h-8;
 }
