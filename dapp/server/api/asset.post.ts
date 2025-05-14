@@ -13,6 +13,14 @@ export default defineEventHandler(async (event) => {
     token: kvRestApiToken,
   })
 
+  const checkName = await redis.get(`slug:${body.name}`)
+  if (checkName) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Username already exists',
+    })
+  }
+
   const umi = createUmi('https://api.devnet.solana.com')
   const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(walletSecret as unknown as ArrayBuffer))
   const signer = keypairIdentity(keypair)

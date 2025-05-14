@@ -153,7 +153,7 @@ async function updateProfile() {
   catch (error) {
     console.error('Failed to update profile:', error)
     updateStatus.title = 'Update Failed'
-    updateStatus.message = 'We encountered an error while saving your changes. Please try again or check your wallet connection.'
+    updateStatus.message = `We encountered an error while saving your changes. Please try again or check your wallet connection. ${error}`
     updateStatus.success = false
   }
   finally {
