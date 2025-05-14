@@ -35,10 +35,13 @@ export default defineEventHandler(async (event) => {
     uri,
   }).sendAndConfirm(umi)
 
-  await redis.set(body.name, JSON.stringify({
+  const data = {
     ...body,
     owner: asset.owner,
-  }))
+  }
+
+  await redis.set(`slug:${body.name}`, data)
+  await redis.set(`user:${asset.owner}`, data)
 
   return { assetId, body }
 })

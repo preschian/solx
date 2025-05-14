@@ -136,7 +136,7 @@ async function updateProfile() {
       method: 'PATCH',
       body: {
         ...profile,
-        assetId: data.value?.asset?.id,
+        assetId: data.value?.metadata?.assetId,
       },
     })
 
