@@ -137,6 +137,39 @@ watchEffect(() => {
   profile.image = metadata.image ?? ''
   profile.links = metadata.links ?? []
 })
+
+async function handleFileChange(event: Event) {
+  const target = event.target as HTMLInputElement
+  const file = target.files?.[0]
+
+  if (!file) {
+    return
+  }
+
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const response = await $fetch('/api/upload-image', {
+      method: 'POST',
+      body: formData,
+    })
+
+    console.log('Upload response:', response)
+
+    if (response && response.upload && response.upload.id) {
+      console.log(`https://gateway.irys.xyz/${response.upload.id}`)
+      profile.image = `https://gateway.irys.xyz/${response.upload.id}`
+      target.value = ''
+    }
+    else {
+      console.warn('Upload response did not contain an ID or was unexpected:', response)
+    }
+  }
+  catch (error) {
+    console.error('Failed to upload image:', error)
+  }
+}
 </script>
 
 <template>
@@ -171,6 +204,9 @@ watchEffect(() => {
 
               <template #body>
                 <div class="flex flex-col gap-2">
+                  <UFormField label="Profile Photo">
+                    <UInput type="file" @change="handleFileChange" />
+                  </UFormField>
                   <UFormField label="Username">
                     <UInput v-model="profile.name" class="w-full" />
                   </UFormField>
