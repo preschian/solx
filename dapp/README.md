@@ -1,75 +1,49 @@
-# Nuxt UI Starter
+# SOLX dApp
 
-Look at [Nuxt docs](https://nuxt.com/docs/getting-started/introduction) and [Nuxt UI docs](https://ui.nuxt.com) to learn more.
+SOLX is a Web3 platform built on Solana that connects communities and creators through blockchain-based profiles stored as Metaplex Core NFTs. This dApp is built with [Nuxt](https://nuxt.com) and [Nuxt UI](https://ui.nuxt.com).
+
+## Prerequisites
+
+- Node.js (Latest LTS version recommended)
+- Bun package manager
+- Solana Wallet (like Phantom)
+- Solana CLI (optional, for development)
 
 ## Setup
 
-Make sure to install the dependencies:
+Install the dependencies:
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
 bun install
 ```
 
-## Development Server
+## Development
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
 bun run dev
 ```
+
+> **Note**: The application currently runs on Solana Devnet. Get test SOL from [Solana Faucet](https://faucet.solana.com/)
 
 ## Production
 
 Build the application for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
 bun run build
 ```
 
-Locally preview production build:
+Preview the production build locally:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Learn More
+
+- [Nuxt Documentation](https://nuxt.com/docs/getting-started/introduction)
+- [Nuxt UI Documentation](https://ui.nuxt.com)
+- [Solana Documentation](https://docs.solana.com)
+- [Metaplex Documentation](https://docs.metaplex.com)
