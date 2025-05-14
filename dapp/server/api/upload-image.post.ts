@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
 
   // fund the upload
   try {
-    const price = await irys.getPrice(file.data.length)
+    const price = await irys.getPrice(file.data.length * 10)
     await irys.fund(price)
     console.log(`Successfully funded ${irys.utils.fromAtomic(price)} ${irys.token}`)
   }

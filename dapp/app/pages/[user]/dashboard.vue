@@ -32,6 +32,9 @@ const openEditProfile = ref(false)
 const openAddLink = ref(false)
 const openEditLink = ref(false)
 
+const imagePreview = ref('')
+const isUploading = ref(false)
+
 function removeLink(index: number) {
   profile.links = profile.links.filter((_, i) => i !== index)
 }
@@ -147,6 +150,10 @@ async function handleFileChange(event: Event) {
   }
 
   try {
+    isUploading.value = true
+    // Create preview URL
+    imagePreview.value = URL.createObjectURL(file)
+
     const formData = new FormData()
     formData.append('file', file)
 
@@ -168,8 +175,20 @@ async function handleFileChange(event: Event) {
   }
   catch (error) {
     console.error('Failed to upload image:', error)
+    // Clear preview on error
+    imagePreview.value = ''
+  }
+  finally {
+    isUploading.value = false
   }
 }
+
+// Cleanup preview URL when component is unmounted
+onBeforeUnmount(() => {
+  if (imagePreview.value) {
+    URL.revokeObjectURL(imagePreview.value)
+  }
+})
 </script>
 
 <template>
@@ -187,8 +206,18 @@ async function handleFileChange(event: Event) {
       <!-- Profile Info -->
       <div class="bg-white rounded-xl p-4 shadow-sm border border-primary-100">
         <div class="flex flex-col items-center text-center">
-          <div class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center mb-4">
-            <UIcon name="i-lucide-user" class="text-3xl text-primary-600" />
+          <div class="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center mb-4 overflow-hidden">
+            <img
+              v-if="data?.metadata?.image"
+              :src="data?.metadata?.image"
+              :alt="data?.metadata?.name || 'Profile'"
+              class="w-full h-full object-cover"
+            >
+            <UIcon
+              v-else
+              name="i-lucide-user"
+              class="text-3xl text-primary-600"
+            />
           </div>
           <h1 class="text-xl font-bold mb-3 text-primary-900">
             Your Profile
@@ -197,7 +226,7 @@ async function handleFileChange(event: Event) {
             Manage your profile information and appearance
           </p>
           <div class="flex gap-4">
-            <UModal v-model:open="openEditProfile" title="Edit Profile">
+            <UModal v-model:open="openEditProfile" :dismissible="false" title="Edit Profile">
               <UButton color="primary" variant="soft" icon="i-lucide-edit">
                 Edit Profile
               </UButton>
@@ -205,7 +234,12 @@ async function handleFileChange(event: Event) {
               <template #body>
                 <div class="flex flex-col gap-2">
                   <UFormField label="Profile Photo">
-                    <UInput type="file" @change="handleFileChange" />
+                    <div class="space-y-4">
+                      <UInput type="file" accept="image/*" @change="handleFileChange" />
+                      <div v-if="imagePreview" class="w-32 h-32 mx-auto rounded-full overflow-hidden">
+                        <img :src="imagePreview" alt="Profile preview" class="w-full h-full object-cover">
+                      </div>
+                    </div>
                   </UFormField>
                   <UFormField label="Username">
                     <UInput v-model="profile.name" class="w-full" />
@@ -222,15 +256,20 @@ async function handleFileChange(event: Event) {
               <template #footer>
                 <div class="flex justify-end gap-2">
                   <UButton
-                    color="neutral" variant="soft" @click="openEditProfile = false"
+                    color="neutral"
+                    variant="soft"
+                    :disabled="isUploading"
+                    @click="openEditProfile = false"
                   >
                     Cancel
                   </UButton>
                   <UButton
                     color="primary"
-                    @click="openEditProfile = false"
+                    :loading="isUploading"
+                    :disabled="isUploading"
+                    @click="updateProfile"
                   >
-                    Save Changes
+                    {{ isUploading ? 'Uploading Image...' : 'Save Changes' }}
                   </UButton>
                 </div>
               </template>
