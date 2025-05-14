@@ -261,9 +261,9 @@ function reloadPage() {
           <p class="text-primary-700 mb-4">
             {{ data?.metadata?.description || 'Manage your profile information and appearance' }}
           </p>
-          <div class="flex gap-4">
+          <div class="flex gap-4 w-full">
             <UModal v-model:open="openEditProfile" :dismissible="false" title="Edit Profile">
-              <UButton color="primary" variant="soft" icon="i-lucide-edit">
+              <UButton color="primary" variant="outline" icon="i-lucide-edit" class="flex-1 justify-center">
                 Edit Profile
               </UButton>
 
@@ -329,17 +329,31 @@ function reloadPage() {
                 </div>
               </template>
             </UModal>
+
             <UButton
-              v-if="hasProfileChanges"
+              v-if="data?.metadata?.assetId"
               color="primary"
-              :icon="isUpdating ? 'i-lucide-loader-2' : 'i-lucide-save'"
-              :loading="isUpdating"
-              :disabled="isUpdating"
-              @click="updateProfile"
+              variant="soft"
+              icon="i-lucide-external-link"
+              :to="`https://core.metaplex.com/explorer/${data.metadata.assetId}?env=devnet`"
+              target="_blank"
+              class="flex-1 justify-center"
             >
-              {{ isUpdating ? 'Updating...' : 'Update Profile' }}
+              View On-chain
             </UButton>
           </div>
+
+          <UButton
+            v-if="hasProfileChanges"
+            block
+            color="primary"
+            :icon="isUpdating ? 'i-lucide-loader-2' : 'i-lucide-save'"
+            :loading="isUpdating"
+            :disabled="isUpdating"
+            class="mt-4" @click="updateProfile"
+          >
+            {{ isUpdating ? 'Updating...' : 'Update Profile' }}
+          </UButton>
         </div>
       </div>
 
