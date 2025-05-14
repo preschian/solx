@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { useWallet } from 'solana-wallets-vue'
-
 interface Link {
   title: string
   value: string
@@ -22,10 +20,10 @@ const newLink = reactive({
 const openEditProfile = ref(false)
 const openAddLink = ref(false)
 
-const { publicKey } = useWallet()
+const route = useRoute()
 const { data } = useFetch('/api/asset', {
   query: {
-    owner: publicKey.value?.toString(),
+    owner: route.params.user,
   },
 })
 
