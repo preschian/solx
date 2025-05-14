@@ -4,6 +4,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     walletSecret: '',
+    kvRestApiUrl: '',
+    kvRestApiToken: '',
   },
 
   modules: [

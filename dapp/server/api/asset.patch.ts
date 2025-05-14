@@ -2,10 +2,16 @@ import { fetchAsset, fetchCollection, update } from '@metaplex-foundation/mpl-co
 import { keypairIdentity, publicKey } from '@metaplex-foundation/umi'
 import { createUmi } from '@metaplex-foundation/umi-bundle-defaults'
 import { irysUploader } from '@metaplex-foundation/umi-uploader-irys'
+import { Redis } from '@upstash/redis'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { walletSecret } = useRuntimeConfig(event)
+  const { walletSecret, kvRestApiUrl, kvRestApiToken } = useRuntimeConfig(event)
+
+  const redis = new Redis({
+    url: kvRestApiUrl,
+    token: kvRestApiToken,
+  })
 
   const umi = createUmi('https://api.devnet.solana.com')
   const keypair = umi.eddsa.createKeypairFromSecretKey(new Uint8Array(walletSecret as unknown as ArrayBuffer))
@@ -28,6 +34,11 @@ export default defineEventHandler(async (event) => {
     name,
     uri,
   }).sendAndConfirm(umi)
+
+  await redis.set(body.name, JSON.stringify({
+    ...body,
+    owner: asset.owner,
+  }))
 
   return { assetId, body }
 })
