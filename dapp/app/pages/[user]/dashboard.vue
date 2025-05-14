@@ -34,6 +34,7 @@ const openEditLink = ref(false)
 
 const imagePreview = ref('')
 const isUploading = ref(false)
+const toast = useToast()
 
 function removeLink(index: number) {
   profile.links = profile.links.filter((_, i) => i !== index)
@@ -123,9 +124,21 @@ async function updateProfile() {
       },
     })
     openEditProfile.value = false
+    toast.add({
+      title: 'Profile update in progress',
+      description: 'Your profile update has been submitted. Please wait a few seconds and reload the page to see the changes.',
+      icon: 'i-lucide-check',
+      color: 'success',
+    })
   }
   catch (error) {
     console.error('Failed to update profile:', error)
+    toast.add({
+      title: 'Update failed',
+      description: 'Failed to submit profile update. Please try again or check your wallet connection.',
+      icon: 'i-lucide-x',
+      color: 'error',
+    })
   }
 }
 
