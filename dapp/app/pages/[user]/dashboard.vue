@@ -4,6 +4,11 @@ interface Link {
   value: string
 }
 
+interface ProfileTask {
+  title: string
+  completed: boolean
+}
+
 const profile = reactive({
   name: '',
   fullName: '',
@@ -38,6 +43,32 @@ const hasProfileChanges = computed(() => {
     || profile.image !== data.value.metadata.image
     || JSON.stringify(profile.links) !== JSON.stringify(data.value.metadata.links)
   )
+})
+
+const profileCompletion = computed(() => {
+  const tasks = [
+    { completed: Boolean(profile.image), weight: 1 },
+    {
+      completed: Boolean(profile.name) && Boolean(profile.fullName) && Boolean(profile.description),
+      weight: 1,
+    },
+    { completed: profile.links.length > 0, weight: 1 },
+  ]
+
+  const totalWeight = tasks.reduce((sum, task) => sum + task.weight, 0)
+  const completedWeight = tasks.reduce((sum, task) => sum + (task.completed ? task.weight : 0), 0)
+  const percentage = Math.round((completedWeight / totalWeight) * 100)
+
+  const profileTasks: ProfileTask[] = [
+    { title: 'Add Profile Photo', completed: tasks[0]?.completed ?? false },
+    { title: 'Add Basic Info', completed: tasks[1]?.completed ?? false },
+    { title: 'Add Links', completed: tasks[2]?.completed ?? false },
+  ]
+
+  return {
+    percentage,
+    tasks: profileTasks,
+  }
 })
 
 async function updateProfile() {
@@ -202,21 +233,30 @@ watchEffect(() => {
             Profile Status
           </h2>
           <div class="text-sm font-medium text-primary-600">
-            25% Complete
+            {{ profileCompletion.percentage }}% Complete
           </div>
         </div>
 
         <!-- Progress Bar -->
         <div class="w-full h-2 bg-primary-100 rounded-full mb-6">
-          <div class="h-2 bg-primary-600 rounded-full" style="width: 25%" />
+          <div
+            class="h-2 bg-primary-600 rounded-full transition-all duration-300"
+            :style="{ width: `${profileCompletion.percentage}%` }"
+          />
         </div>
 
         <!-- Completion Tasks -->
         <div class="space-y-4">
           <!-- Add Profile Photo -->
           <div class="flex items-center gap-3">
-            <div class="w-5 h-5 rounded-full border-2 border-primary-600 flex items-center justify-center">
-              <UIcon name="i-lucide-check" class="text-xs text-primary-600" />
+            <div
+              class="w-5 h-5 rounded-full border-2 flex items-center justify-center"
+              :class="profileCompletion.tasks[0]?.completed ? 'border-primary-600' : 'border-primary-200'"
+            >
+              <UIcon
+                :name="profileCompletion.tasks[0]?.completed ? 'i-lucide-check' : 'i-lucide-plus'"
+                :class="profileCompletion.tasks[0]?.completed ? 'text-xs text-primary-600' : 'text-xs text-primary-400'"
+              />
             </div>
             <div class="flex-1">
               <div class="text-sm font-medium text-primary-900">
@@ -226,33 +266,58 @@ watchEffect(() => {
                 Make your profile more personal
               </div>
             </div>
-            <UButton color="primary" variant="soft" size="xs" icon="i-lucide-image">
+            <UButton
+              v-if="!profileCompletion.tasks[0]?.completed"
+              color="primary"
+              variant="soft"
+              size="xs"
+              icon="i-lucide-image"
+            >
               Add
             </UButton>
           </div>
 
-          <!-- Add Bio -->
+          <!-- Add Basic Info -->
           <div class="flex items-center gap-3">
-            <div class="w-5 h-5 rounded-full border-2 border-primary-200 flex items-center justify-center">
-              <UIcon name="i-lucide-plus" class="text-xs text-primary-400" />
+            <div
+              class="w-5 h-5 rounded-full border-2 flex items-center justify-center"
+              :class="profileCompletion.tasks[1]?.completed ? 'border-primary-600' : 'border-primary-200'"
+            >
+              <UIcon
+                :name="profileCompletion.tasks[1]?.completed ? 'i-lucide-check' : 'i-lucide-plus'"
+                :class="profileCompletion.tasks[1]?.completed ? 'text-xs text-primary-600' : 'text-xs text-primary-400'"
+              />
             </div>
             <div class="flex-1">
               <div class="text-sm font-medium text-primary-900">
-                Add Bio
+                Add Basic Info
               </div>
               <div class="text-xs text-primary-600">
-                Tell others about yourself
+                Add your slug, name, and bio
               </div>
             </div>
-            <UButton color="primary" variant="soft" size="xs" icon="i-lucide-edit" @click="openEditProfile = true">
+            <UButton
+              v-if="!profileCompletion.tasks[1]?.completed"
+              color="primary"
+              variant="soft"
+              size="xs"
+              icon="i-lucide-edit"
+              @click="openEditProfile = true"
+            >
               Add
             </UButton>
           </div>
 
           <!-- Add Links -->
           <div class="flex items-center gap-3">
-            <div class="w-5 h-5 rounded-full border-2 border-primary-200 flex items-center justify-center">
-              <UIcon name="i-lucide-plus" class="text-xs text-primary-400" />
+            <div
+              class="w-5 h-5 rounded-full border-2 flex items-center justify-center"
+              :class="profileCompletion.tasks[2]?.completed ? 'border-primary-600' : 'border-primary-200'"
+            >
+              <UIcon
+                :name="profileCompletion.tasks[2]?.completed ? 'i-lucide-check' : 'i-lucide-plus'"
+                :class="profileCompletion.tasks[2]?.completed ? 'text-xs text-primary-600' : 'text-xs text-primary-400'"
+              />
             </div>
             <div class="flex-1">
               <div class="text-sm font-medium text-primary-900">
@@ -262,7 +327,14 @@ watchEffect(() => {
                 Connect your social profiles
               </div>
             </div>
-            <UButton color="primary" variant="soft" size="xs" icon="i-lucide-link">
+            <UButton
+              v-if="!profileCompletion.tasks[2]?.completed"
+              color="primary"
+              variant="soft"
+              size="xs"
+              icon="i-lucide-link"
+              @click="openAddLink = true"
+            >
               Add
             </UButton>
           </div>
