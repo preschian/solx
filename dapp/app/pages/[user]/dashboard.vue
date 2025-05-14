@@ -285,12 +285,17 @@ function reloadPage() {
                         :color="usernameError ? 'error' : undefined"
                         placeholder="your-username"
                         maxlength="30"
+                        :disabled="Boolean(data?.metadata?.name?.length)"
                       />
                       <p v-if="usernameError" class="text-xs text-red-500">
                         {{ usernameError }}
                       </p>
                       <p class="text-xs text-gray-500">
                         This will be your profile URL: <span class="font-bold">solx.im/{{ profile.name }}</span>
+                      </p>
+                      <p v-if="data?.metadata?.name" class="text-xs text-amber-600">
+                        <UIcon name="i-lucide-info" class="inline-block w-3 h-3 mr-1" />
+                        Username changes are not supported in this alpha version
                       </p>
                     </div>
                   </UFormField>
