@@ -255,8 +255,17 @@ function reloadPage() {
               class="text-3xl text-primary-600"
             />
           </div>
-          <h1 class="text-xl font-bold mb-3 text-primary-900">
+          <h1 class="text-xl font-bold mb-3 text-primary-900 flex items-center justify-center gap-2">
             {{ data?.metadata?.fullName || 'Your Profile' }}
+            <UButton
+              v-if="data?.metadata?.name"
+              color="primary"
+              variant="solid"
+              icon="i-lucide-eye"
+              :to="`/${data.metadata.name}`"
+              size="xs"
+              target="_blank"
+            />
           </h1>
           <p class="text-primary-700 mb-4">
             {{ data?.metadata?.description || 'Manage your profile information and appearance' }}
@@ -350,7 +359,8 @@ function reloadPage() {
             :icon="isUpdating ? 'i-lucide-loader-2' : 'i-lucide-save'"
             :loading="isUpdating"
             :disabled="isUpdating"
-            class="mt-4" @click="updateProfile"
+            class="mt-4"
+            @click="updateProfile"
           >
             {{ isUpdating ? 'Updating...' : 'Update Profile' }}
           </UButton>
