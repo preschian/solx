@@ -25,8 +25,13 @@ const newLink = reactive({
 const openEditProfile = ref(false)
 const openAddLink = ref(false)
 
+function removeLink(index: number) {
+  profile.links = profile.links.filter((_, i) => i !== index)
+}
+
 const route = useRoute()
-const { data } = useFetch('/api/asset', {
+
+const { data } = await useLazyFetch('/api/asset', {
   query: {
     owner: route.params.user,
   },
@@ -41,7 +46,7 @@ const hasProfileChanges = computed(() => {
     || profile.fullName !== data.value.metadata.fullName
     || profile.description !== data.value.metadata.description
     || profile.image !== data.value.metadata.image
-    || JSON.stringify(profile.links) !== JSON.stringify(data.value.metadata.links)
+    || JSON.stringify(toRaw(profile.links)) !== JSON.stringify(data.value.metadata.links)
   )
 })
 
@@ -88,11 +93,15 @@ async function updateProfile() {
 }
 
 watchEffect(() => {
-  profile.name = data.value?.metadata?.name ?? ''
-  profile.fullName = data.value?.metadata?.fullName ?? ''
-  profile.description = data.value?.metadata?.description ?? ''
-  profile.image = data.value?.metadata?.image ?? ''
-  profile.links = data.value?.metadata?.links ?? []
+  if (!data?.value?.metadata)
+    return
+
+  const metadata = data.value.metadata
+  profile.name = metadata.name ?? ''
+  profile.fullName = metadata.fullName ?? ''
+  profile.description = metadata.description ?? ''
+  profile.image = metadata.image ?? ''
+  profile.links = metadata.links ?? []
 })
 </script>
 
@@ -373,7 +382,7 @@ watchEffect(() => {
                 <UButton
                   color="primary"
                   @click="() => {
-                    profile.links.push({ ...newLink });
+                    profile.links = [...profile.links, { ...newLink }];
                     newLink.title = '';
                     newLink.value = '';
                     openAddLink = false;
@@ -421,7 +430,13 @@ watchEffect(() => {
             </div>
             <div class="flex items-center gap-2">
               <UButton color="primary" variant="soft" icon="i-lucide-edit" size="sm" />
-              <UButton color="primary" variant="soft" icon="i-lucide-trash" size="sm" />
+              <UButton
+                color="primary"
+                variant="soft"
+                icon="i-lucide-trash"
+                size="sm"
+                @click="removeLink(index)"
+              />
             </div>
           </div>
         </div>
