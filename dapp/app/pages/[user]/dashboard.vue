@@ -34,7 +34,14 @@ const openEditLink = ref(false)
 
 const imagePreview = ref('')
 const isUploading = ref(false)
-const toast = useToast()
+
+const isUpdating = ref(false)
+const showStatusModal = ref(false)
+const updateStatus = reactive({
+  success: false,
+  message: '',
+  title: '',
+})
 
 function removeLink(index: number) {
   profile.links = profile.links.filter((_, i) => i !== index)
@@ -69,7 +76,7 @@ function updateLink() {
 
 const route = useRoute()
 
-const { data } = await useLazyFetch('/api/asset', {
+const { data, refresh } = await useLazyFetch('/api/asset', {
   query: {
     owner: route.params.user,
   },
@@ -115,7 +122,16 @@ const profileCompletion = computed(() => {
 })
 
 async function updateProfile() {
+  if (isUpdating.value)
+    return
+
   try {
+    isUpdating.value = true
+    showStatusModal.value = true
+    updateStatus.title = 'Updating Profile'
+    updateStatus.message = 'Please wait while we process your changes...'
+    updateStatus.success = false
+
     await $fetch('/api/asset', {
       method: 'PATCH',
       body: {
@@ -123,22 +139,23 @@ async function updateProfile() {
         assetId: data.value?.asset?.id,
       },
     })
+
+    // Refresh data to update hasProfileChanges
+    await refresh()
+
+    updateStatus.title = 'Update Successful'
+    updateStatus.message = 'Your profile update has been submitted. Please wait a few seconds and reload the page to see the changes.'
+    updateStatus.success = true
     openEditProfile.value = false
-    toast.add({
-      title: 'Profile update in progress',
-      description: 'Your profile update has been submitted. Please wait a few seconds and reload the page to see the changes.',
-      icon: 'i-lucide-check',
-      color: 'success',
-    })
   }
   catch (error) {
     console.error('Failed to update profile:', error)
-    toast.add({
-      title: 'Update failed',
-      description: 'Failed to submit profile update. Please try again or check your wallet connection.',
-      icon: 'i-lucide-x',
-      color: 'error',
-    })
+    updateStatus.title = 'Update Failed'
+    updateStatus.message = 'We encountered an error while saving your changes. Please try again or check your wallet connection.'
+    updateStatus.success = false
+  }
+  finally {
+    isUpdating.value = false
   }
 }
 
@@ -202,6 +219,10 @@ onBeforeUnmount(() => {
     URL.revokeObjectURL(imagePreview.value)
   }
 })
+
+function reloadPage() {
+  window.location.reload()
+}
 </script>
 
 <template>
@@ -290,10 +311,12 @@ onBeforeUnmount(() => {
             <UButton
               v-if="hasProfileChanges"
               color="primary"
-              icon="i-lucide-save"
+              :icon="isUpdating ? 'i-lucide-loader-2' : 'i-lucide-save'"
+              :loading="isUpdating"
+              :disabled="isUpdating"
               @click="updateProfile"
             >
-              Update Profile
+              {{ isUpdating ? 'Updating...' : 'Update Profile' }}
             </UButton>
           </div>
         </div>
@@ -599,4 +622,72 @@ onBeforeUnmount(() => {
       </template>
     </UModal>
   </UContainer>
+
+  <!-- Status Modal -->
+  <UModal v-model:open="showStatusModal" :dismissible="!isUpdating">
+    <template #content>
+      <div class="p-6 sm:p-8">
+        <div
+          class="mx-auto flex h-12 w-12 items-center justify-center rounded-full" :class="{
+            'bg-primary-50': isUpdating,
+            'bg-success-50': !isUpdating && updateStatus.success,
+            'bg-error-50': !isUpdating && !updateStatus.success,
+          }"
+        >
+          <UIcon
+            v-if="isUpdating"
+            name="i-lucide-loader-2"
+            class="h-6 w-6 animate-spin text-primary-500"
+          />
+          <UIcon
+            v-else-if="updateStatus.success"
+            name="i-lucide-check"
+            class="h-6 w-6 text-success-500"
+          />
+          <UIcon
+            v-else
+            name="i-lucide-alert-circle"
+            class="h-6 w-6 text-error-500"
+          />
+        </div>
+
+        <div class="mt-4 text-center sm:mt-5">
+          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+            {{ updateStatus.title }}
+          </h3>
+          <div class="mt-2">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              {{ updateStatus.message }}
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-center gap-3">
+          <UButton
+            v-if="!updateStatus.success"
+            color="neutral"
+            variant="soft"
+            :disabled="isUpdating"
+            @click="showStatusModal = false"
+          >
+            Cancel
+          </UButton>
+          <UButton
+            v-if="!isUpdating && !updateStatus.success"
+            color="primary"
+            @click="updateProfile"
+          >
+            Try Again
+          </UButton>
+          <UButton
+            v-if="updateStatus.success"
+            color="primary"
+            @click="reloadPage"
+          >
+            Reload Page
+          </UButton>
+        </div>
+      </div>
+    </template>
+  </UModal>
 </template>
