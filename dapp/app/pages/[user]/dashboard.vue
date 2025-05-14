@@ -22,11 +22,45 @@ const newLink = reactive({
   value: '',
 })
 
+const editingLink = reactive({
+  index: -1,
+  title: '',
+  value: '',
+})
+
 const openEditProfile = ref(false)
 const openAddLink = ref(false)
+const openEditLink = ref(false)
 
 function removeLink(index: number) {
   profile.links = profile.links.filter((_, i) => i !== index)
+}
+
+function editLink(index: number) {
+  const link = profile.links[index]
+  if (!link)
+    return
+
+  editingLink.index = index
+  editingLink.title = link.title
+  editingLink.value = link.value
+  openEditLink.value = true
+}
+
+function updateLink() {
+  if (editingLink.index === -1)
+    return
+
+  profile.links = profile.links.map((link, index) =>
+    index === editingLink.index
+      ? { title: editingLink.title, value: editingLink.value }
+      : link,
+  )
+
+  editingLink.index = -1
+  editingLink.title = ''
+  editingLink.value = ''
+  openEditLink.value = false
 }
 
 const route = useRoute()
@@ -137,7 +171,7 @@ watchEffect(() => {
 
               <template #body>
                 <div class="flex flex-col gap-2">
-                  <UFormField label="Slug">
+                  <UFormField label="Username">
                     <UInput v-model="profile.name" class="w-full" />
                   </UFormField>
                   <UFormField label="Name">
@@ -429,7 +463,13 @@ watchEffect(() => {
               </div>
             </div>
             <div class="flex items-center gap-2">
-              <UButton color="primary" variant="soft" icon="i-lucide-edit" size="sm" />
+              <UButton
+                color="primary"
+                variant="soft"
+                icon="i-lucide-edit"
+                size="sm"
+                @click="editLink(index)"
+              />
               <UButton
                 color="primary"
                 variant="soft"
@@ -442,5 +482,33 @@ watchEffect(() => {
         </div>
       </div>
     </div>
+
+    <!-- Edit Link Modal -->
+    <UModal v-model:open="openEditLink" title="Edit Link">
+      <template #body>
+        <div class="flex flex-col gap-4">
+          <UFormField label="Title">
+            <UInput v-model="editingLink.title" placeholder="e.g., My Website" class="w-full" />
+          </UFormField>
+          <UFormField label="URL">
+            <UInput v-model="editingLink.value" placeholder="https://example.com" class="w-full" />
+          </UFormField>
+        </div>
+      </template>
+
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <UButton color="neutral" variant="soft" @click="openEditLink = false">
+            Cancel
+          </UButton>
+          <UButton
+            color="primary"
+            @click="updateLink"
+          >
+            Save Changes
+          </UButton>
+        </div>
+      </template>
+    </UModal>
   </UContainer>
 </template>
