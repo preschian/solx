@@ -29,6 +29,19 @@ const { data } = useFetch('/api/asset', {
   },
 })
 
+const hasProfileChanges = computed(() => {
+  if (!data.value?.metadata)
+    return false
+
+  return (
+    profile.name !== data.value.metadata.name
+    || profile.fullName !== data.value.metadata.fullName
+    || profile.description !== data.value.metadata.description
+    || profile.image !== data.value.metadata.image
+    || JSON.stringify(profile.links) !== JSON.stringify(data.value.metadata.links)
+  )
+})
+
 async function updateProfile() {
   try {
     await $fetch('/api/asset', {
@@ -114,7 +127,12 @@ watchEffect(() => {
                 </div>
               </template>
             </UModal>
-            <UButton color="primary" icon="i-lucide-save" @click="updateProfile">
+            <UButton
+              v-if="hasProfileChanges"
+              color="primary"
+              icon="i-lucide-save"
+              @click="updateProfile"
+            >
               Update Profile
             </UButton>
           </div>

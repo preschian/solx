@@ -21,12 +21,12 @@ const isDashboard = computed(() => route.name === 'user-dashboard')
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-share-2">
+          <!-- <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-share-2">
             Share
           </UButton>
           <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-qr-code">
             QR Code
-          </UButton>
+          </UButton> -->
           <!-- edit profile button -->
           <!-- <UButton v-if="publicKey" color="primary" icon="i-lucide-user" :to="`/${publicKey}/dashboard`">
             Profile
