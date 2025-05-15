@@ -1,8 +1,3 @@
-<script lang="ts" setup>
-// const route = useRoute()
-// const isDashboard = computed(() => route.name === 'user-dashboard')
-</script>
-
 <template>
   <!-- Top Navigation -->
   <div class="shadow">
