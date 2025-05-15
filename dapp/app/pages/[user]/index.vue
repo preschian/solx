@@ -83,9 +83,14 @@ definePageMeta({
             color="neutral"
             variant="outline"
             class="py-2.5 h-auto text-sm font-medium"
-            :icon="getLinkIcon(link)"
           >
-            {{ link.title }}
+            <template #leading>
+              <UIcon :name="getLinkIcon(link)" class="text-lg" />
+            </template>
+            <span class="flex-1 text-center">{{ link.title }}</span>
+            <template #trailing>
+              <UIcon name="i-lucide-external-link" class="text-lg" />
+            </template>
           </UButton>
         </div>
 
