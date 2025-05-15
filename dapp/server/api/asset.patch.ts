@@ -41,7 +41,9 @@ export default defineEventHandler(async (event) => {
   }
 
   await redis.set(`slug:${body.name}`, data)
-  await redis.set(`user:${asset.owner}`, data)
+  await redis.hset(asset.owner, {
+    metadata: data,
+  })
 
   return { assetId, body }
 })

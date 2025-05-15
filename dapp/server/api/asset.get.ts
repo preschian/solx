@@ -37,7 +37,14 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  const user = (await redis.get(`user:${query.owner}`)) as Metadata | undefined
+  if (!query.owner) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Owner is required',
+    })
+  }
+
+  const user = (await redis.hget(query.owner.toString(), 'metadata')) as Metadata | undefined
   if (user?.assetId) {
     return { query, metadata: user }
   }
@@ -59,6 +66,8 @@ export default defineEventHandler(async (event) => {
     const data = await fetch(assets?.uri)
     metadata = await data.json()
   }
+
+  await redis.hset(query.owner.toString(), { metadata })
 
   return { query, metadata }
 })

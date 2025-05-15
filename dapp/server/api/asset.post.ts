@@ -73,7 +73,9 @@ export default defineEventHandler(async (event) => {
   }).sendAndConfirm(umi)
 
   await redis.set(`slug:${data.name}`, data)
-  await redis.set(`user:${data.owner}`, data)
+  await redis.hset(data.owner, {
+    metadata: data,
+  })
 
   return { data }
 })
