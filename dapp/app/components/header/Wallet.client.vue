@@ -6,7 +6,7 @@ const { publicKey } = useWallet()
 
 <template>
   <UButton v-if="publicKey" color="primary" icon="i-lucide-user" :to="`/${publicKey}/dashboard`">
-    Profile
+    Dashboard
   </UButton>
   <div class="solana-wallet">
     <WalletMultiButton />

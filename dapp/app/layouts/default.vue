@@ -14,14 +14,6 @@
           </NuxtLink>
         </div>
         <div class="flex items-center gap-2">
-          <!-- <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-share-2">
-            Share
-          </UButton>
-          <UButton v-if="isDashboard" color="primary" variant="soft" icon="i-lucide-qr-code">
-            QR Code
-          </UButton> -->
-          <!-- edit profile button -->
-
           <HeaderWallet />
         </div>
       </div>
@@ -43,11 +35,11 @@
           </p>
         </div>
         <div class="flex gap-8">
-          <a href="https://github.com" target="_blank" rel="noopener" class="hover:text-white flex items-center gap-2">
+          <a href="https://github.com/preschian/solx" target="_blank" rel="noopener" class="hover:text-white flex items-center gap-2">
             <UIcon name="i-lucide-github" class="text-lg" />
             <span>GitHub</span>
           </a>
-          <a href="https://twitter.com" target="_blank" rel="noopener" class="hover:text-white flex items-center gap-2">
+          <a href="https://x.com/pres_chain" target="_blank" rel="noopener" class="hover:text-white flex items-center gap-2">
             <UIcon name="i-lucide-twitter" class="text-lg" />
             <span>Twitter</span>
           </a>

@@ -1,13 +1,5 @@
 <template>
   <div class="bg-radial from-primary-900 via-primary-800 to-primary-700">
-    <UContainer class="py-4">
-      <UAlert
-        description="This app is currently running on Solana Devnet. Get test SOL from Solana Faucet: https://faucet.solana.com/"
-        color="info"
-        icon="i-lucide-terminal"
-      />
-    </UContainer>
-
     <UContainer class="pb-40 pt-32 max-w-4xl mx-auto text-center sm:pt-24 sm:pb-24">
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 text-white font-serif">
         Your Solana Bridge to Web3 Communities and Innovators

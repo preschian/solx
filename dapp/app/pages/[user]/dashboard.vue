@@ -229,14 +229,6 @@ function reloadPage() {
 
 <template>
   <UContainer class="mt-8">
-    <UAlert
-      description="This app is currently running on Solana Devnet. Get test SOL from Solana Faucet: https://faucet.solana.com/"
-      color="info"
-      icon="i-lucide-terminal"
-    />
-  </UContainer>
-
-  <UContainer class="mt-8">
     <!-- Profile Overview -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Profile Info -->
