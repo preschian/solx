@@ -2,7 +2,7 @@
   <div class="bg-white mt-2">
     <!-- Hero Section -->
     <UContainer class="py-16">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div>
           <h1 class="text-5xl sm:text-6xl font-bold mb-6">
             Your Links Hub on Solana
