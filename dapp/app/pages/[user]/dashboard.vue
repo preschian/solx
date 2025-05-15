@@ -4,6 +4,24 @@ interface Link {
   value: string
 }
 
+const route = useRoute()
+
+// Fetch stats data
+const { data: statsData } = await useFetch('/api/stats', {
+  query: {
+    owner: route.params.user,
+  },
+})
+
+const totalClicks = computed(() => statsData.value?.clicks || 0)
+
+// Fetch user data
+const { data, refresh } = await useLazyFetch('/api/asset', {
+  query: {
+    owner: route.params.user,
+  },
+})
+
 const profile = reactive({
   name: '',
   fullName: '',
@@ -82,14 +100,6 @@ function updateLink() {
   editingLink.value = ''
   openEditLink.value = false
 }
-
-const route = useRoute()
-
-const { data, refresh } = await useLazyFetch('/api/asset', {
-  query: {
-    owner: route.params.user,
-  },
-})
 
 const hasProfileChanges = computed(() => {
   if (!data.value?.metadata)
@@ -373,11 +383,11 @@ function reloadPage() {
             <div class="flex-1">
               <div class="flex justify-between items-center mb-1">
                 <span class="text-sm text-primary-700">Total Views</span>
-                <span class="font-semibold text-primary-900">0</span>
+                <span class="font-semibold text-primary-900">{{ statsData?.views || 0 }}</span>
               </div>
               <div class="text-xs text-primary-600 flex items-center gap-1">
                 <UIcon name="i-lucide-trending-up" class="text-green-500" />
-                <span>No data yet</span>
+                <span>Profile views</span>
               </div>
             </div>
           </div>
@@ -390,11 +400,11 @@ function reloadPage() {
             <div class="flex-1">
               <div class="flex justify-between items-center mb-1">
                 <span class="text-sm text-primary-700">Total Clicks</span>
-                <span class="font-semibold text-primary-900">0</span>
+                <span class="font-semibold text-primary-900">{{ totalClicks }}</span>
               </div>
               <div class="text-xs text-primary-600 flex items-center gap-1">
                 <UIcon name="i-lucide-trending-up" class="text-green-500" />
-                <span>No data yet</span>
+                <span>Link clicks</span>
               </div>
             </div>
           </div>
@@ -407,10 +417,10 @@ function reloadPage() {
             <div class="flex-1">
               <div class="flex justify-between items-center mb-1">
                 <span class="text-sm text-primary-700">Active Links</span>
-                <span class="font-semibold text-primary-900">0</span>
+                <span class="font-semibold text-primary-900">{{ profile.links.length }}</span>
               </div>
               <div class="text-xs text-primary-600">
-                Add links to get started
+                {{ profile.links.length ? 'Links are active' : 'Add links to get started' }}
               </div>
             </div>
           </div>

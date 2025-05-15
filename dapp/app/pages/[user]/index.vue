@@ -9,28 +9,14 @@ const { data } = await useFetch('/api/asset', {
 
 const metadata = computed(() => data.value?.metadata)
 
-// Function to determine icon based on link URL
-function getLinkIcon(link: { title: string, value: string }) {
-  const url = link.value.toLowerCase()
+// Function to track link clicks using sendBeacon
+function trackClick(link: string) {
+  const blob = new Blob([JSON.stringify({
+    owner: metadata.value?.owner,
+    linkId: link,
+  })], { type: 'application/json' })
 
-  if (url.includes('twitter.com') || url.includes('x.com'))
-    return 'i-lucide-twitter'
-  if (url.includes('github.com'))
-    return 'i-lucide-github'
-  if (url.includes('linkedin.com'))
-    return 'i-lucide-linkedin'
-  if (url.includes('instagram.com'))
-    return 'i-lucide-instagram'
-  if (url.includes('youtube.com'))
-    return 'i-lucide-youtube'
-  if (url.includes('discord.com'))
-    return 'i-lucide-message-circle'
-  if (url.includes('telegram'))
-    return 'i-lucide-send'
-  if (url.startsWith('mailto:'))
-    return 'i-lucide-mail'
-
-  return 'i-lucide-link'
+  navigator.sendBeacon('/api/stats/click', blob)
 }
 
 definePageMeta({
@@ -83,6 +69,7 @@ definePageMeta({
             color="neutral"
             variant="outline"
             class="py-2.5 h-auto text-sm font-medium"
+            @click="trackClick(link.value)"
           >
             <template #leading>
               <UIcon :name="getLinkIcon(link)" class="text-lg" />

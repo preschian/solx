@@ -12,6 +12,7 @@ interface Metadata {
     title: string
     value: string
   }[]
+  owner?: string
   assetId?: string
 }
 
@@ -26,6 +27,11 @@ export default defineEventHandler(async (event) => {
 
   if (query.slug) {
     const user = (await redis.get(`slug:${query.slug}`)) as Metadata | undefined
+
+    if (user?.owner) {
+      await redis.hincrby(user.owner, 'views', 1)
+    }
+
     if (user) {
       return { query, metadata: user }
     }
