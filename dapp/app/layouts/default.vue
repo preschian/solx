@@ -34,7 +34,7 @@
             <UIcon name="i-lucide-github" class="text-lg" />
             <span>GitHub</span>
           </a>
-          <a href="https://x.com/pres_chain" target="_blank" rel="noopener" class="hover:text-white flex items-center gap-2">
+          <a href="https://x.com/0xPresc" target="_blank" rel="noopener" class="hover:text-white flex items-center gap-2">
             <UIcon name="i-lucide-twitter" class="text-lg" />
             <span>Twitter</span>
           </a>
