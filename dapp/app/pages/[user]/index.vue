@@ -54,9 +54,19 @@ definePageMeta({
           <span class="text-sm text-primary-500">@{{ metadata?.name }}</span>
           <UIcon name="i-lucide-badge-check" class="text-primary-500 w-4 h-4" />
         </div> -->
-        <p v-if="metadata?.description" class="text-primary-600 text-sm mb-8 max-w-md mx-auto">
+        <p v-if="metadata?.description" class="text-primary-600 text-sm mb-4 max-w-md mx-auto">
           {{ metadata?.description }}
         </p>
+
+        <!-- Tip Button - Client Only Component -->
+        <div v-if="metadata?.owner" class="mb-8">
+          <ClientOnly>
+            <TipButton
+              :recipient-address="metadata.owner"
+              :recipient-name="metadata.fullName || metadata.name"
+            />
+          </ClientOnly>
+        </div>
 
         <!-- Links -->
         <div v-if="metadata?.links?.length" class="space-y-2.5">
